@@ -8,45 +8,44 @@ class Pet {
 
     public:
         Pet(string pet_name) {
-            name = pet_name;
+            this->name = pet_name; 
         }
 
         string getName() {
-            return name;
+            return this->name; 
         }
 
         void speak() {
-            cout << name << " says: Meow!" << endl;
+            cout << this->name << " says: Meow!" << endl; 
         }
-
-    
 };
 
 class Caretaker {
     public:
-        Caretaker(string caretaker_name) {
-            name = caretaker_name;
+        Caretaker(string caretaker_name, Pet& pet) : pet(pet) {
+            this->name = caretaker_name; 
         }
 
         string getName() {
-            return name;
+            return this->name; 
         }
 
-        void takeCareOfPet(Pet& pet) {
-            cout << name << " is taking care of " << pet.getName() << "." << endl;
-            pet.speak();
+        void takeCareOfPet() {
+            cout << this->name << " is taking care of " << this->pet.getName() << "." << endl; 
+            this->pet.speak(); 
         }
 
     private:
         string name;
-    };
+        Pet& pet; 
+};
 
 int main() {
     Pet whiskers("Whiskers");
     whiskers.speak();
-    Caretaker john("John");
-
-    john.takeCareOfPet(whiskers);
+    
+    Caretaker john("John", whiskers);
+    john.takeCareOfPet();
 
     return 0;
 }
