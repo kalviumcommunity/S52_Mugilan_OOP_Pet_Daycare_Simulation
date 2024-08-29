@@ -5,10 +5,13 @@ using namespace std;
 class Pet {
     private:
         string name;
+        static int petCount;
+        static int speakCount;
 
     public:
         Pet(string pet_name) {
             this->name = pet_name;
+            petCount++;
         }
 
         string getName() {
@@ -17,8 +20,17 @@ class Pet {
 
         void speak() {
             cout << this->name << " says: Meow!" << endl;
+            speakCount++;
         }
+
+        static int getPetCount() {
+            return petCount;
+        }
+
 };
+
+// Initialize static variables
+int Pet::petCount = 0;
 
 class Caretaker {
     public:
@@ -53,6 +65,9 @@ int main() {
     }
 
     john->takeCareOfPet();
+
+    cout << "Total number of pets created: " << Pet::getPetCount() << endl;
+
 
     for (int i = 0; i < 3; i++) {
         delete pets[i];
