@@ -22,7 +22,7 @@ class Pet {
 
 class Caretaker {
     public:
-        Caretaker(string caretaker_name, Pet& pet) : pet(pet) {
+        Caretaker(string caretaker_name, Pet* pet) : pet(pet) {
             this->name = caretaker_name;
         }
 
@@ -31,25 +31,33 @@ class Caretaker {
         }
 
         void takeCareOfPet() {
-            cout << this->name << " is taking care of " << this->pet.getName() << "." << endl;
-            this->pet.speak();
+            cout << this->name << " is taking care of " << this->pet->getName() << "." << endl;
+            this->pet->speak();
         }
 
     private:
         string name;
-        Pet& pet;
+        Pet* pet;
 };
 
 int main() {
-    Pet pets[3] = { Pet("Whiskers"), Pet("Fluffy"), Pet("Mittens") };
-    
-    Caretaker john("John", pets[0]);
+    Pet* pets[3];
+    pets[0] = new Pet("Whiskers");
+    pets[1] = new Pet("Fluffy");
+    pets[2] = new Pet("Mittens");
+
+    Caretaker* john = new Caretaker("John", pets[0]);
 
     for (int i = 0; i < 3; i++) {
-        pets[i].speak();
+        pets[i]->speak();
     }
 
-    john.takeCareOfPet();
+    john->takeCareOfPet();
+
+    for (int i = 0; i < 3; i++) {
+        delete pets[i];
+    }
+    delete john;
 
     return 0;
 }
