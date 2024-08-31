@@ -6,7 +6,6 @@ class Pet {
     private:
         string name;
         static int petCount;
-        static int speakCount;
 
     public:
         Pet(string pet_name) {
@@ -20,16 +19,15 @@ class Pet {
 
         void speak() {
             cout << this->name << " says: Meow!" << endl;
-            speakCount++;
         }
+
 
         static int getPetCount() {
             return petCount;
         }
-
 };
 
-// Initialize static variables
+
 int Pet::petCount = 0;
 
 class Caretaker {
@@ -66,8 +64,8 @@ int main() {
 
     john->takeCareOfPet();
 
+    // Calling the static member function without creating an object
     cout << "Total number of pets created: " << Pet::getPetCount() << endl;
-
 
     for (int i = 0; i < 3; i++) {
         delete pets[i];
