@@ -3,13 +3,13 @@
 using namespace std;
 
 class Pet {
-    // Private attribute for encapsulation
     private:
-        string name;
+        string name; 
 
     public:
+
         Pet(string pet_name) {
-            this->name = pet_name;
+            setName(pet_name);
         }
 
         string getName() {
@@ -17,9 +17,10 @@ class Pet {
         }
 
         void setName(string pet_name) {
-            name = pet_name; // Encapsulation, hiding direct access
+            name = pet_name;  
         }
 
+        // abstracting the details from the outside world
         void speak() {
             cout << getName() << " says: Meow!" << endl;
         }
@@ -27,13 +28,14 @@ class Pet {
 
 class Caretaker {
     private:
-        string name;  // Private attribute for encapsulation
-        Pet* pet;     // Private pointer to a Pet object
+        string name;  
+        Pet* pet;     
 
     public:
+
         Caretaker(string caretaker_name, Pet* pet) {
-            this->name = caretaker_name ;  
-            this->pet = pet;  
+            setName(caretaker_name);  
+            this->pet = pet;  // abstracts away the internal working of Pet
         }
 
         string getName() {
@@ -41,12 +43,12 @@ class Caretaker {
         }
 
         void setName(string caretaker_name) {
-            name = caretaker_name; // Encapsulation to set the name
+            name = caretaker_name;  
         }
 
         void takeCareOfPet() {
             cout << getName() << " is taking care of " << pet->getName() << "." << endl;
-            pet->speak();
+            pet->speak();  // Abstraction: Caretaker doesn't need to know how pet speaks
         }
 };
 
@@ -56,6 +58,7 @@ int main() {
     pets[0] = new Pet("Whiskers");
     pets[1] = new Pet("Fluffy");
     pets[2] = new Pet("Mittens");
+
 
     Caretaker* john = new Caretaker("John", pets[0]);
 
