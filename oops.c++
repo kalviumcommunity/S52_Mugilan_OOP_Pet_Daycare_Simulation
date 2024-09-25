@@ -3,54 +3,55 @@
 using namespace std;
 
 class Pet {
+    // Private attribute for encapsulation
     private:
         string name;
-        static int petCount;
 
     public:
         Pet(string pet_name) {
             this->name = pet_name;
-            petCount++;
         }
 
         string getName() {
-            return this->name;
+            return name;
+        }
+
+        void setName(string pet_name) {
+            name = pet_name; // Encapsulation, hiding direct access
         }
 
         void speak() {
-            cout << this->name << " says: Meow!" << endl;
-        }
-
-
-        static int getPetCount() {
-            return petCount;
+            cout << getName() << " says: Meow!" << endl;
         }
 };
 
-
-int Pet::petCount = 0;
-
 class Caretaker {
+    private:
+        string name;  // Private attribute for encapsulation
+        Pet* pet;     // Private pointer to a Pet object
+
     public:
-        Caretaker(string caretaker_name, Pet* pet) : pet(pet) {
-            this->name = caretaker_name;
+        Caretaker(string caretaker_name, Pet* pet) {
+            this->name = caretaker_name ;  
+            this->pet = pet;  
         }
 
         string getName() {
-            return this->name;
+            return name;
+        }
+
+        void setName(string caretaker_name) {
+            name = caretaker_name; // Encapsulation to set the name
         }
 
         void takeCareOfPet() {
-            cout << this->name << " is taking care of " << this->pet->getName() << "." << endl;
-            this->pet->speak();
+            cout << getName() << " is taking care of " << pet->getName() << "." << endl;
+            pet->speak();
         }
-
-    private:
-        string name;
-        Pet* pet;
 };
 
 int main() {
+
     Pet* pets[3];
     pets[0] = new Pet("Whiskers");
     pets[1] = new Pet("Fluffy");
@@ -63,9 +64,6 @@ int main() {
     }
 
     john->takeCareOfPet();
-
-    // Calling the static member function without creating an object
-    cout << "Total number of pets created: " << Pet::getPetCount() << endl;
 
     for (int i = 0; i < 3; i++) {
         delete pets[i];
