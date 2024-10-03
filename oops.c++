@@ -4,51 +4,53 @@ using namespace std;
 
 class Pet {
     private:
-        string name; 
+        string name;
 
     public:
-
+        // Constructor
         Pet(string pet_name) {
-            setName(pet_name);
+            name = pet_name;
+            cout << "Pet " << name << " is created." << endl;
         }
+
+        // Destructor
+        ~Pet() {
+            cout << "Pet " << name << " is destroyed." << endl;
+        }
+
 
         string getName() {
             return name;
         }
 
-        void setName(string pet_name) {
-            name = pet_name;  
-        }
 
-        // abstracting the details from the outside world
         void speak() {
-            cout << getName() << " says: Meow!" << endl;
+            cout << name << " says: Meow!" << endl;
         }
 };
 
 class Caretaker {
     private:
-        string name;  
-        Pet* pet;     
+        string name;
+        Pet* pet;  
 
     public:
-
+        // Constructor
         Caretaker(string caretaker_name, Pet* pet) {
-            setName(caretaker_name);  
-            this->pet = pet;  // abstracts away the internal working of Pet
+            name = caretaker_name;
+            this->pet = pet;
+            cout << "Caretaker " << name << " is taking care of " << pet->getName() << "." << endl;
         }
 
-        string getName() {
-            return name;
+        // Destructor
+        ~Caretaker() {
+            cout << "Caretaker " << name << " is no longer taking care of " << pet->getName() << "." << endl;
         }
 
-        void setName(string caretaker_name) {
-            name = caretaker_name;  
-        }
 
         void takeCareOfPet() {
-            cout << getName() << " is taking care of " << pet->getName() << "." << endl;
-            pet->speak();  // Abstraction: Caretaker doesn't need to know how pet speaks
+            cout << name << " is taking care of " << pet->getName() << "." << endl;
+            pet->speak();
         }
 };
 
@@ -62,11 +64,14 @@ int main() {
 
     Caretaker* john = new Caretaker("John", pets[0]);
 
+
     for (int i = 0; i < 3; i++) {
         pets[i]->speak();
     }
 
+
     john->takeCareOfPet();
+
 
     for (int i = 0; i < 3; i++) {
         delete pets[i];
