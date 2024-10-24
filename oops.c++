@@ -2,10 +2,10 @@
 #include <string>
 using namespace std;
 
-// Base class: Pet
+// Abstract base class: Pet
 class Pet {
     protected:
-        string name;  
+        string name;
 
     public:
         Pet(string pet_name) {
@@ -21,10 +21,8 @@ class Pet {
             return name;
         }
 
-        // Virtual method for polymorphism 
-        virtual void speak() {
-            cout << name << " makes a sound!" << endl;  
-        }
+        // Pure virtual function making Pet an abstract class
+        virtual void speak() = 0;
 };
 
 // Derived class: Cat
@@ -47,7 +45,7 @@ class Dog : public Pet {
         }
 };
 
-// Caretaker class to demonstrate interaction with polymorphic objects
+// Caretaker class
 class Caretaker {
     private:
         string name;
@@ -65,29 +63,28 @@ class Caretaker {
         }
 
         void takeCareOfPet() {
-            cout << name << " is taking care of " << pet->getName() << "." << endl;
-            pet->speak();  // Polymorphism
+            pet->speak();  // Calls the overridden speak function (virtual function)
         }
 };
 
 int main() {
     Pet* pets[3];
-    pets[0] = new Cat("Whiskers");  // Cat object
-    pets[1] = new Dog("Buddy");     // Dog object
-    pets[2] = new Cat("Fluffy");    // Another Cat object
+    pets[0] = new Cat("Whiskers");
+    pets[1] = new Dog("Buddy");
+    pets[2] = new Cat("Fluffy");
 
     Caretaker* john = new Caretaker("John", pets[0]);
 
     for (int i = 0; i < 3; i++) {
-        pets[i]->speak();  // Polymorphism
+        pets[i]->speak();
     }
 
     john->takeCareOfPet();
 
     for (int i = 0; i < 3; i++) {
-        delete pets[i];  
+        delete pets[i];
     }
-    delete john;  
+    delete john;
 
     return 0;
 }
