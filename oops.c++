@@ -25,7 +25,6 @@ public:
     virtual void speak() = 0;
 };
 
-// Derived class: Cat
 class Cat : public Pet {
 public:
     Cat(string cat_name) : Pet(cat_name) {}
@@ -35,7 +34,6 @@ public:
     }
 };
 
-// Derived class: Dog 
 class Dog : public Pet {
 public:
     Dog(string dog_name) : Pet(dog_name) {}
@@ -45,7 +43,7 @@ public:
     }
 };
 
-// New Derived class: Bird (New pet added without modifying existing code)
+// New Derived class: Bird (New pet added following LSP)
 class Bird : public Pet {
 public:
     Bird(string bird_name) : Pet(bird_name) {}
@@ -75,6 +73,7 @@ public:
     }
 };
 
+// New class: PetCareManager responsible for managing the interaction between caretaker and pet
 class PetCareManager {
 private:
     Caretaker* caretaker;
@@ -88,7 +87,7 @@ public:
     }
 
     void takeCareOfPet() {
-        pet->speak();  
+        pet->speak();  // Calls the overridden speak function (virtual function)
     }
 };
 
@@ -97,14 +96,14 @@ int main() {
     pets[0] = new Cat("Whiskers");
     pets[1] = new Dog("Buddy");
     pets[2] = new Cat("Fluffy");
-    pets[3] = new Bird("Tweety");  // Adding a new pet type (Bird)
+    pets[3] = new Bird("Tweety"); 
 
     Caretaker* john = new Caretaker("John");
 
     PetCareManager* petCareManager = new PetCareManager(john, pets[0]);
 
     for (int i = 0; i < 4; i++) {
-        pets[i]->speak();
+        pets[i]->speak();  // LSP is demonstrated here since the pets (Cat, Dog, Bird) can all be used interchangeably
     }
 
     petCareManager->takeCareOfPet();
