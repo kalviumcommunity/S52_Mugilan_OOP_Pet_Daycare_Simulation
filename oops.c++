@@ -25,6 +25,7 @@ public:
     virtual void speak() = 0;
 };
 
+// Derived class: Cat
 class Cat : public Pet {
 public:
     Cat(string cat_name) : Pet(cat_name) {}
@@ -34,22 +35,13 @@ public:
     }
 };
 
+// Derived class: Dog 
 class Dog : public Pet {
 public:
     Dog(string dog_name) : Pet(dog_name) {}
 
     void speak() override {
         cout << name << " says: Woof!" << endl;
-    }
-};
-
-// New Derived class: Bird (New pet added following LSP)
-class Bird : public Pet {
-public:
-    Bird(string bird_name) : Pet(bird_name) {}
-
-    void speak() override {
-        cout << name << " says: Tweet!" << endl;
     }
 };
 
@@ -92,23 +84,22 @@ public:
 };
 
 int main() {
-    Pet* pets[4];  
+    Pet* pets[3];
     pets[0] = new Cat("Whiskers");
     pets[1] = new Dog("Buddy");
     pets[2] = new Cat("Fluffy");
-    pets[3] = new Bird("Tweety"); 
 
     Caretaker* john = new Caretaker("John");
 
     PetCareManager* petCareManager = new PetCareManager(john, pets[0]);
 
-    for (int i = 0; i < 4; i++) {
-        pets[i]->speak();  // LSP is demonstrated here since the pets (Cat, Dog, Bird) can all be used interchangeably
+    for (int i = 0; i < 3; i++) {
+        pets[i]->speak();
     }
 
     petCareManager->takeCareOfPet();
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         delete pets[i];
     }
     delete john;
