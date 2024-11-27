@@ -2,81 +2,118 @@
 #include <string>
 using namespace std;
 
+// Abstract base class: Pet
 class Pet {
-    private:
-        string name;
+protected:
+    string name;
 
-    public:
-        // Constructor
-        Pet(string pet_name) {
-            name = pet_name;
-            cout << "Pet " << name << " is created." << endl;
-        }
+public:
+    Pet(string pet_name) {
+        name = pet_name;
+        cout << "Pet " << name << " is created." << endl;
+    }
 
-        // Destructor
-        ~Pet() {
-            cout << "Pet " << name << " is destroyed." << endl;
-        }
+    virtual ~Pet() {
+        cout << "Pet " << name << " is destroyed." << endl;
+    }
 
+    string getName() {
+        return name;
+    }
 
-        string getName() {
-            return name;
-        }
-
-
-        void speak() {
-            cout << name << " says: Meow!" << endl;
-        }
+    // Pure virtual function making Pet an abstract class
+    virtual void speak() = 0;
 };
 
+// Derived class: Cat
+class Cat : public Pet {
+public:
+    Cat(string cat_name) : Pet(cat_name) {}
+
+    void speak() override {
+        cout << name << " says: Meow!" << endl;
+    }
+};
+
+// Derived class: Dog 
+class Dog : public Pet {
+public:
+    Dog(string dog_name) : Pet(dog_name) {}
+
+    void speak() override {
+        cout << name << " says: Woof!" << endl;
+    }
+};
+
+// New Derived class: Bird (New pet added without modifying existing code)
+class Bird : public Pet {
+public:
+    Bird(string bird_name) : Pet(bird_name) {}
+
+    void speak() override {
+        cout << name << " says: Tweet!" << endl;
+    }
+};
+
+// Caretaker class responsible for managing caretaker details only
 class Caretaker {
-    private:
-        string name;
-        Pet* pet;  
+private:
+    string name;
 
-    public:
-        // Constructor
-        Caretaker(string caretaker_name, Pet* pet) {
-            name = caretaker_name;
-            this->pet = pet;
-            cout << "Caretaker " << name << " is taking care of " << pet->getName() << "." << endl;
-        }
+public:
+    Caretaker(string caretaker_name) {
+        name = caretaker_name;
+        cout << "Caretaker " << name << " is created." << endl;
+    }
 
-        // Destructor
-        ~Caretaker() {
-            cout << "Caretaker " << name << " is no longer taking care of " << pet->getName() << "." << endl;
-        }
+    ~Caretaker() {
+        cout << "Caretaker " << name << " is destroyed." << endl;
+    }
 
+    string getName() {
+        return name;
+    }
+};
 
-        void takeCareOfPet() {
-            cout << name << " is taking care of " << pet->getName() << "." << endl;
-            pet->speak();
-        }
+class PetCareManager {
+private:
+    Caretaker* caretaker;
+    Pet* pet;
+
+public:
+    PetCareManager(Caretaker* caretaker, Pet* pet) {
+        this->caretaker = caretaker;
+        this->pet = pet;
+        cout << "Caretaker " << caretaker->getName() << " is taking care of " << pet->getName() << "." << endl;
+    }
+
+    void takeCareOfPet() {
+        pet->speak();  
+    }
 };
 
 int main() {
+    Pet* pets[4];  
+    pets[0] = new Cat("Whiskers");
+    pets[1] = new Dog("Buddy");
+    pets[2] = new Cat("Fluffy");
+    pets[3] = new Bird("Tweety");  // Adding a new pet type (Bird)
 
-    Pet* pets[3];
-    pets[0] = new Pet("Whiskers");
-    pets[1] = new Pet("Fluffy");
-    pets[2] = new Pet("Mittens");
+    Caretaker* john = new Caretaker("John");
 
+    PetCareManager* petCareManager = new PetCareManager(john, pets[0]);
 
-    Caretaker* john = new Caretaker("John", pets[0]);
-
-
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         pets[i]->speak();
     }
 
+    petCareManager->takeCareOfPet();
 
-    john->takeCareOfPet();
-
-
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         delete pets[i];
     }
     delete john;
+    delete petCareManager;
 
     return 0;
 }
