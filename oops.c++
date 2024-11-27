@@ -45,6 +45,16 @@ public:
     }
 };
 
+// New Derived class: Bird (New pet added without modifying existing code)
+class Bird : public Pet {
+public:
+    Bird(string bird_name) : Pet(bird_name) {}
+
+    void speak() override {
+        cout << name << " says: Tweet!" << endl;
+    }
+};
+
 // Caretaker class responsible for managing caretaker details only
 class Caretaker {
 private:
@@ -65,7 +75,6 @@ public:
     }
 };
 
-// New class: PetCareManager responsible for managing the interaction between caretaker and pet
 class PetCareManager {
 private:
     Caretaker* caretaker;
@@ -79,27 +88,28 @@ public:
     }
 
     void takeCareOfPet() {
-        pet->speak();  // Calls the overridden speak function (virtual function)
+        pet->speak();  
     }
 };
 
 int main() {
-    Pet* pets[3];
+    Pet* pets[4];  
     pets[0] = new Cat("Whiskers");
     pets[1] = new Dog("Buddy");
     pets[2] = new Cat("Fluffy");
+    pets[3] = new Bird("Tweety");  // Adding a new pet type (Bird)
 
     Caretaker* john = new Caretaker("John");
 
     PetCareManager* petCareManager = new PetCareManager(john, pets[0]);
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         pets[i]->speak();
     }
 
     petCareManager->takeCareOfPet();
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
         delete pets[i];
     }
     delete john;
